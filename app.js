@@ -2,6 +2,8 @@ const canvas = document.getElementById("jsCanvas");
 //context 캔버스를 컨트롤함
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
+const range = document.getElementById("jsRange");
+const mode = document.getElementById("jsMode");
 
 //pixel nodifier 브라우져에게 캔버스의 사이즈를 알려준다.
 canvas.width=500;
@@ -11,6 +13,7 @@ ctx.strokeStyle = "#black";
 ctx.lineWidth = 2.5;
 
 let painting = false;
+let filling = false;
 
 function stopPainting(){
     painting = false;
@@ -49,6 +52,23 @@ function handleColorClick(event){
    ctx.strokeStyle = color;
 }
 
+function handlRangeChange(event){
+    const value = event.target.value;
+    ctx.lineWidth = value;
+}
+
+//괄호 안의 event의 이유는?
+function switchMode(event){
+    //const text = event.target.innerText;
+    if(mode.innerText=="FILL"){
+        mode.innerText="PAINT";
+    }
+    else{
+        mode.innerText="FILL";
+    }
+}
+
+//if가 정의 되면 실행
 if(canvas){
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", startPainting);
@@ -57,5 +77,14 @@ if(canvas){
 }
 
 //object로부터 array를 만든다.
+if(colors){
 Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick))
+}
 
+if(range){
+ range.addEventListener("input",handlRangeChange);   
+}
+
+if(mode){
+    mode.addEventListener("click",switchMode);
+}
