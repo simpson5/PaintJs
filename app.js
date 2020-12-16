@@ -10,6 +10,7 @@ canvas.width=500;
 canvas.height = 600;
 
 ctx.strokeStyle = "#black";
+ctx.fillStyle = "#black"
 ctx.lineWidth = 2.5;
 
 let painting = false;
@@ -50,6 +51,7 @@ function handleColorClick(event){
    const color = event.target.style.backgroundColor;
    console.log(color);
    ctx.strokeStyle = color;
+   ctx.fillStyle = color;
 }
 
 function handlRangeChange(event){
@@ -58,13 +60,21 @@ function handlRangeChange(event){
 }
 
 //괄호 안의 event의 이유는?
-function switchMode(event){
+function switchMode(){
     //const text = event.target.innerText;
-    if(mode.innerText=="FILL"){
-        mode.innerText="PAINT";
+    if(filling == true){
+        filling = false;
+        mode.innerText="Fill";
     }
     else{
-        mode.innerText="FILL";
+        filling = true;
+        mode.innerText="Paint";
+    }
+}
+
+function handleCanvasClick(){
+    if(filling==true){
+        ctx.fillRect(0, 0, 500, 600);
     }
 }
 
@@ -73,7 +83,8 @@ if(canvas){
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", startPainting);
     canvas.addEventListener("mouseup", stopPainting);
-    canvas.addEventListener("mouseleave", stopPainting)
+    canvas.addEventListener("mouseleave", stopPainting);
+    canvas.addEventListener("click",handleCanvasClick);
 }
 
 //object로부터 array를 만든다.
